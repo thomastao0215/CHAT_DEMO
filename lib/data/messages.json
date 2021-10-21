@@ -1,0 +1,22 @@
+{
+  "conversations": [
+    {
+      "conversation_id": "123123",
+      "messages": [
+        {
+          "message_id": "123123",
+          "messageText": "abc",
+          "messageType": "sender",
+          "messageTime": "Today"
+        },
+        {
+          "message_id": "123123",
+          "messageText": "abc",
+          "messageType": "sender",
+          "messageTime": "Today"
+        }
+      ]
+    }
+
+  ]
+}
