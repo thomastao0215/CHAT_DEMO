@@ -44,7 +44,7 @@ class _ConversationItemState extends State<ConversationItem> {
                         children: <Widget>[
                           Text(widget.users[widget.chatConversation!.chatUser!].name!, style: TextStyle(fontSize: 16),),
                           SizedBox(height: 6,),
-                          Text(widget.chatConversation!.messageText!,style: TextStyle(fontSize: 13,color: Colors.grey.shade600, fontWeight: widget.chatConversation!.isRead!?FontWeight.bold:FontWeight.normal),),
+                          Text(widget.chatConversation!.messageText!,style: TextStyle(fontSize: 13,color: Colors.grey.shade600, fontWeight: widget.chatConversation!.isRead! == 1?FontWeight.bold:FontWeight.normal),),
                         ],
                       ),
                     ),
@@ -52,7 +52,7 @@ class _ConversationItemState extends State<ConversationItem> {
                 ],
               ),
             ),
-            Text(widget.chatConversation!.time!,style: TextStyle(fontSize: 12,fontWeight: widget.chatConversation!.isRead!?FontWeight.bold:FontWeight.normal),),
+            Text(widget.chatConversation!.time!,style: TextStyle(fontSize: 12,fontWeight: widget.chatConversation!.isRead! == 1 ?FontWeight.bold:FontWeight.normal),),
           ],
         ),
       ),

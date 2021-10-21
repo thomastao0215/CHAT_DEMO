@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 class ChatMessage{
-  String? conversationId;
-  String? messageId;
+  int? conversationId;
+  int? messageId;
   String? messageText;
   String? messageType;
   String? messageTime;
@@ -14,15 +14,16 @@ class ChatMessage{
     return {
       'conversation_id': conversationId,
       'message_id': messageId,
-      'messageText': messageText,
+      'message_text': messageText,
       'message_type': messageType,
-      'message_time': messageTime,
     };
   }
 
   ChatMessage.fromMap(Map<String, dynamic> res)
       : conversationId = res["conversation_id"],
-        messageText = res["message_text"];
+        messageId = res["message_id"],
+        messageText = res["message_text"],
+        messageType = res["message_type"];
 
 
 }

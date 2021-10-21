@@ -12,6 +12,7 @@ class ChatDetailPage extends StatefulWidget {
   final ChatConversation? chatConversation;
   final List<ChatUser> users;
 
+
   @override
   _ChatDetailPageState createState() => _ChatDetailPageState();
 }
@@ -20,16 +21,39 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
 
   late DatabaseHandler handler;
 
-  List<ChatMessage> messages = [
-    ChatMessage(messageText: "Hello, Will", messageType: "receiver"),
-    ChatMessage(messageText: "How have you been?", messageType: "receiver"),
-    ChatMessage(messageText: "Hey Kriss, I am doing fine dude. wbu?", messageType: "sender"),
-    ChatMessage(messageText: "ehhhh, doing OK.", messageType: "receiver"),
-    ChatMessage(messageText: "Is there any thing wrong?", messageType: "sender"),
-    ChatMessage(messageText: "ehhhh, doing OK.", messageType: "receiver"),
-  ];
+  List<ChatMessage> messages = [];
+
+  late ChatMessage send_message;
+
+  final fieldText = TextEditingController();
+
+
+
   Future<void> _pullToRefresh(BuildContext context) async {
 
+  }
+
+  Future sendMessage() async {
+    var message = ChatMessage(conversationId: widget.chatConversation?.conversationId!, messageId: messages.length, messageText: fieldText.text, messageType: 'sender', messageTime: 'now');
+    fieldText.clear();
+    await this.handler.sendMessage(message).then((value) => {
+      fetchMessages().then((value){
+        setState(() {
+          messages = value;
+        });
+      })
+    });
+  }
+
+  Future replyMessage() async {
+    var message = ChatMessage(conversationId: widget.chatConversation?.conversationId!, messageId: messages.length, messageText: messages[messages.length-1].messageText, messageType: 'receiver', messageTime: 'now');
+    await this.handler.sendMessage(message).then((value) => {
+      fetchMessages().then((value){
+        setState(() {
+          messages = value;
+        });
+      })
+    });
   }
 
   @override
@@ -37,13 +61,18 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
     // TODO: implement initState
     super.initState();
     this.handler = DatabaseHandler();
-    this.handler.initializeDB();
+    fetchMessages().then((value){
+      setState(() {
+          messages = value;
+      });
+    });
 
   }
 
-  Future<List<ChatUser>> fetchUsers() async {
-    return await this.handler.retrieveChatUser();
+  Future<List<ChatMessage>> fetchMessages() async {
+    return await this.handler.retrieveChatMessage(widget.chatConversation!.conversationId!);
   }
+
 
 
   @override
@@ -133,11 +162,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                             hintStyle: TextStyle(color: Colors.black54),
                             border: InputBorder.none
                         ),
+
+                        controller: fieldText,
                       ),
                     ),
                     SizedBox(width: 15,),
                     FloatingActionButton(
-                      onPressed: (){},
+                      onPressed: (){
+                        sendMessage();
+                        Future.delayed(Duration(seconds: 1), () {
+                          // 5 seconds over, navigate to Page2.
+                          replyMessage();
+                        });
+                      },
                       child: Icon(Icons.send,color: Colors.white,size: 18,),
                       backgroundColor: Colors.amber,
                       elevation: 0,

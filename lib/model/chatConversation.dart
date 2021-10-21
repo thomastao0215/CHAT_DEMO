@@ -7,7 +7,7 @@ class ChatConversation{
   int? chatUser;
   String? time;
   String? messageText;
-  bool? isRead;
+  int? isRead;
   String? chatUserStr;
   List<ChatMessage>? messageList;
 
@@ -23,13 +23,16 @@ class ChatConversation{
   ChatConversation.fromMap(Map<String, dynamic> res)
       : conversationId = res["conversation_id"],
         chatUser = res["chat_user"],
-        messageText = res["message_text"];
+        messageText = res["message_text"],
+        time = res["time"],
+        isRead = 1;
 
   Map<String, dynamic> toMap() {
     return {
       'conversation_id': conversationId,
       'chat_user': chatUser,
       'message_text': messageText,
+      'time': time
     };
   }
 

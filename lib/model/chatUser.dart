@@ -8,7 +8,7 @@ class ChatUser {
   String? time;
 
   ChatUser(
-      {@required this.name, @required this.messageText, @required this.avatarURL, @required this.time});
+      {@required this.id,@required this.name, @required this.messageText, @required this.avatarURL, @required this.time});
 
   ChatUser.fromMap(Map<String, dynamic> res)
       : id = res["id"],

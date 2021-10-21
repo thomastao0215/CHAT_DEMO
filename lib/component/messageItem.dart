@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class MessageItem extends StatefulWidget {
   ChatMessage? message;
 
+
   MessageItem({@required this.message});
 
   @override
@@ -11,9 +12,23 @@ class MessageItem extends StatefulWidget {
 }
 
 class _MessageItemState extends State<MessageItem> {
+
+  bool is_good = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.message?.messageText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: (){
+        setState(() {
+          is_good = !is_good;
+        });
+      },
       child: Container(
         padding: EdgeInsets.only(left: 14,right: 14,top: 10,bottom: 10),
         child: Align(
@@ -24,7 +39,7 @@ class _MessageItemState extends State<MessageItem> {
               color: (widget.message?.messageType  == "receiver"?Colors.grey.shade200:Colors.blue[200]),
             ),
             padding: EdgeInsets.all(16),
-            child: Text(widget.message?.messageText == null ? "${widget.message?.messageText}":"", style: TextStyle(fontSize: 15),),
+            child: Text(widget.message?.messageText != null ? "${widget.message?.messageText} ${is_good == true ?"👍":""}":"", style: TextStyle(fontSize: 15),),
           ),
         ),
       )
